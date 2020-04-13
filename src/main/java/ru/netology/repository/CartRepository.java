@@ -1,22 +1,28 @@
 package ru.netology.repository;
 
 import ru.netology.domain.PurchaseItem;
+import service.Service;
 
 public class CartRepository {
     private PurchaseItem[] items = new PurchaseItem[0];
+    Service service = new Service();
 
     public void removeById(int id) {
-        int length = items.length - 1;
-        PurchaseItem[] tmp = new PurchaseItem[length];
-        int index = 0;
-        for (PurchaseItem item : items) {
-            if (item.getId() != id) {
-                tmp[index] = item;
-                index++;
+        if (findById(id) != null) {
+            int length = items.length - 1;
+            PurchaseItem[] tmp = new PurchaseItem[length];
+            int index = 0;
+            for (PurchaseItem item : items) {
+                if (item.getId() != id) {
+                    tmp[index] = item;
+                    index++;
+                }
             }
+            items = tmp;
+            System.out.println("repo done");
         }
-        items = tmp;
-        System.out.println("repo done"); // for demo only
+        else service.throwUnchecked();
+        System.out.println("Element with id: " + id + " not found");
     }
 
 
