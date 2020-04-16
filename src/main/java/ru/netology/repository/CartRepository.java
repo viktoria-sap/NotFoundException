@@ -1,11 +1,10 @@
 package ru.netology.repository;
 
 import ru.netology.domain.PurchaseItem;
-import service.Service;
+import ru.netology.exception.NotFoundException;
 
 public class CartRepository {
     private PurchaseItem[] items = new PurchaseItem[0];
-    Service service = new Service();
 
     public void removeById(int id) {
         if (findById(id) != null) {
@@ -19,10 +18,10 @@ public class CartRepository {
                 }
             }
             items = tmp;
-            System.out.println("repo done");
         }
-        else service.throwUnchecked();
-        System.out.println("Element with id: " + id + " not found");
+        else {
+            throw new NotFoundException("Element with id: " + id + " not found");
+        }
     }
 
 

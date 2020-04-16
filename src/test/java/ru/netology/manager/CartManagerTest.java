@@ -1,23 +1,21 @@
 package ru.netology.manager;
 
-import exception.NotFoundException;
+import ru.netology.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
 import ru.netology.domain.PurchaseItem;
 import ru.netology.repository.CartRepository;
-import service.Service;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CartManagerTest {
 
-    CartRepository repository = new CartRepository();
-    CartManager manager = new CartManager(repository);
-    private Service service = new Service();
+    private CartRepository repository = new CartRepository();
+    private CartManager manager = new CartManager(repository);
 
-    PurchaseItem first = new PurchaseItem(1, 1, "first", 1, 1);
-    PurchaseItem second = new PurchaseItem(2, 2, "second", 1, 1);
-    PurchaseItem third = new PurchaseItem(3, 3, "third", 1, 1);
+    private PurchaseItem first = new PurchaseItem(1, 1, "first", 1, 1);
+    private PurchaseItem second = new PurchaseItem(2, 2, "second", 1, 1);
+    private PurchaseItem third = new PurchaseItem(3, 3, "third", 1, 1);
 
     @Test
     public void shouldNotRemoveIfNotExists() {
@@ -28,13 +26,11 @@ public class CartManagerTest {
         manager.add(second);
         manager.add(third);
 
-        manager.removeById(id);
-
-        assertThrows(NotFoundException.class, () -> service.throwUnchecked());
+        assertThrows(NotFoundException.class, () -> manager.removeById(id));
     }
 
     @Test
-    public void shouldNotRemoveIfExists() {
+    public void shouldRemoveIfExists() {
 
         int id = 3;
 
@@ -50,8 +46,4 @@ public class CartManagerTest {
         assertArrayEquals(expected, actual);
     }
 
-    @Test
-    public void shouldThrowUncheckedException() {
-        assertThrows(NotFoundException.class, () -> service.throwUnchecked());
-    }
 }
